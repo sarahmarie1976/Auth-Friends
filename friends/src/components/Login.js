@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { FormGroup, Form, Button, Input, Label } from 'reactstrap';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 
+
 const Login = (props) => {
 	const { push } = useHistory();
 	const [credentials, setCredentials] = useState({
@@ -17,13 +18,14 @@ const Login = (props) => {
 	};
 
 	const handleSubmit = (e) => {
-		e.preventDefault();
+        e.preventDefault();
+        console.log('look at me!')
 		axiosWithAuth()
 			.post('/api/login', credentials)
 			.then((res) => {
-				localStorage.setItem('token', res.data.payload);
-				props.setIsLoggedIn(true);
-				push('/friends');
+				window.localStorage.setItem('token', res.data.payload);
+				 props.setIsLoggedIn(true);
+				// push('/friends');
 			})
 			.catch((err) => {
 				console.log(err);
@@ -52,7 +54,7 @@ const Login = (props) => {
 					placeholder="Enter Password"
                 />
             </FormGroup>
-            <Button type='submit' style={{ width: '30%', marginLeft: '35%', background: '#62cdfd', color: 'whitesmoke', boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)', fontWeight: 'bold' , textShadow: '2px 2px 8px #C0C0C0 '   }} >Submit</Button>
+            <Button onClick={handleSubmit} style={{ width: '30%', marginLeft: '35%', background: '#62cdfd', color: 'whitesmoke', boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)', fontWeight: 'bold' , textShadow: '2px 2px 8px #C0C0C0 '   }} >Submit</Button>
         </Form>
     )
 }
